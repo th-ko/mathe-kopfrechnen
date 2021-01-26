@@ -64,7 +64,7 @@ function geteiltAufgabe() {
   const a = zahlZwischen(5, 20)
   const b = zahlZwischen(5, 20)
   return {
-    html: `${a} : ${b}`,
+    html: `${a * b} : ${b}`,
     result: a,
   }
 }
@@ -113,6 +113,7 @@ function aufgabeAnzeigen(aufgabe) {
   div.innerHTML = aufgabe.html + " = "
 
   const input = document.createElement("input")
+  input.type = 'number'
   input.className = "loesung"
   input.onblur = ueberpruefeErgebnis(input, aufgabe.result)
 

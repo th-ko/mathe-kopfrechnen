@@ -3,6 +3,10 @@ input {
   font-size: 24px;
   font-family: "Roboto Mono", monospace;
 }
+#aufgaben {
+  padding: 2em 0;
+  max-width: 500px;
+}
 #uhr {
   position: fixed;
   top: 13px;
@@ -15,17 +19,18 @@ input {
 }
 .aufgabe {
   display: flex;
-  margin: 24px;
+  margin: 24px 0;
 }
 .aufgabenstellung {
-  margin-right: 1em;
-  width: 250px;
+  margin-right: 0.6em;
   text-align: right;
   line-height: 50px;
+  flex: 2;
 }
 .loesung {
   padding: 8px;
-  width: 150px;
+  flex: 1;
+  min-width: 5em;
   border: 1px solid #cccccc;
 }
 .loesung.richtig {
