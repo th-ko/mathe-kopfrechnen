@@ -1,0 +1,40 @@
+body,
+input {
+  font-size: 24px;
+  font-family: "Roboto Mono", monospace;
+}
+#uhr {
+  position: fixed;
+  top: 13px;
+  border: 2px solid black;
+  border-radius: 8px;
+  padding: 2px 12px;
+  right: 16px;
+  background: lightgoldenrodyellow;
+  font-size: 36px;
+}
+.aufgabe {
+  display: flex;
+  margin: 24px;
+}
+.aufgabenstellung {
+  margin-right: 1em;
+  width: 250px;
+  text-align: right;
+  line-height: 50px;
+}
+.loesung {
+  padding: 8px;
+  width: 150px;
+  border: 1px solid #cccccc;
+}
+.loesung.richtig {
+  box-shadow: 1px 1px 8px rgb(82, 150, 82);
+  border: 1px solid rgb(29, 126, 29);
+  background: rgba(82, 150, 82, 0.1);
+}
+.loesung.falsch {
+  box-shadow: 1px 1px 8px rgb(206, 88, 88);
+  border: 1px solid rgb(177, 34, 34);
+  background: rgba(206, 88, 88, 0.1);
+}
