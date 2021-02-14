@@ -41,11 +41,16 @@ export function generiereAufgaben() {
 //   }
 // }
 
-const prim_klein = [2, 3, 5, 7]
-const prim_gross = [11, 13, 17, 19, 23, 29, 31, 37]
+const prim_klein = [2, 3, 5]
+const prim_mittel = [7, 11, 13]
+const prim_gross = [17, 19, 23]
+// const prim_gross = [11, 13, 17, 19, 23, 29, 31, 37]
 function teilerBestimmenKlein() {
-  const primeCount = zahlZwischen(3, 4)
-  const primes = times(primeCount, () => auswahl(prim_klein))
+  const primeCount = zahlZwischen(2, 3)
+  const primes = [
+    ...times(primeCount, () => auswahl(prim_klein)),
+    primeCount === 2 ? auswahl(prim_mittel) : 1,
+  ]
   const zahl = produktVon(primes)
   const html = String(zahl)
   // const html = `${zahl} = ${primes.sort().join(",")}`
@@ -55,7 +60,7 @@ function teilerBestimmenKlein() {
     const normalisierteEingabe = eingabe
       .split(",")
       .map((x) => parseInt(x.trim(), 10))
-      .sort((a, b) => a-b)
+      .sort((a, b) => a - b)
       .join(", ")
     return result == normalisierteEingabe
   }
@@ -63,7 +68,7 @@ function teilerBestimmenKlein() {
 }
 
 function teilerBestimmenGross() {
-  const primeCount = zahlZwischen(2, 4)
+  const primeCount = zahlZwischen(1, 3)
   const primes = [
     ...times(primeCount, () => auswahl(prim_klein)),
     auswahl(prim_gross),
@@ -77,7 +82,7 @@ function teilerBestimmenGross() {
     const normalisierteEingabe = eingabe
       .split(",")
       .map((x) => parseInt(x.trim(), 10))
-      .sort((a, b) => a-b)
+      .sort((a, b) => a - b)
       .join(", ")
     return result == normalisierteEingabe
   }
@@ -144,7 +149,7 @@ function potenzAufgabe() {
     basis <= 2
       ? zahlZwischen(2, 10)
       : basis <= 6
-      ? zahlZwischen(0, 4)
+      ? zahlZwischen(2, 4)
       : zahlZwischen(2, 3)
 
   function uberpruefe(eingabe) {
