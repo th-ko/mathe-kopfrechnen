@@ -2,10 +2,9 @@ import { uhr } from "/uhr.js"
 
 export function generiereAufgaben() {
   const aufgaben = [
-    ...uniqueTimes(5, teilerBestimmenKlein, a => a.html <= 250),
-    ...uniqueTimes(3, teilerBestimmenGross, a => a.html <= 250),
-    ...uniqueTimes(2, potenzAufgabe),
-
+    ...uniqueTimes(6, teilerBestimmenKlein, a => a.html <= 250),
+    ...uniqueTimes(4, teilerBestimmenGross, a => a.html <= 250),
+    // ...uniqueTimes(2, potenzAufgabe),
     // ...uniqueTimes(5, geteiltAufgabe),
     // ...uniqueTimes(4, malAufgabe),
     // ...uniqueTimes(3, minusAufgabe),

@@ -8,30 +8,26 @@ input {
   display: grid;
   grid-template-columns: minmax(5em, auto) minmax(5em, 1fr);
   row-gap: 24px;
+  margin-bottom: 48px;
 }
 #uhr {
   position: fixed;
-  top: 13px;
+  bottom: 8px;
+  right: 8px;
+  padding: 2px 12px;
   border: 2px solid black;
   border-radius: 8px;
-  padding: 2px 12px;
-  right: 16px;
   background: lightgoldenrodyellow;
   font-size: 36px;
 }
-.aufgabe {
-  display: flex;
-  margin: 24px 0;
-}
+
 .aufgabenstellung {
   margin-right: 0.6em;
   text-align: right;
   line-height: 50px;
-  flex: 0 0 minmax(5em, auto);
 }
 .loesung {
   padding: 8px;
-  flex: 1 0 5em;
   min-width: 5em;
   border: 1px solid #cccccc;
   border-radius: 5px;
