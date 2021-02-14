@@ -2,13 +2,13 @@ import { uhr } from "/uhr.js"
 
 export function generiereAufgaben() {
   const aufgaben = [
-    ...times(10, teilerBestimmenKlein),
-    ...times(7, teilerBestimmenGross),
-    ...times(3, potenzAufgabe),
-    // ...times(5, geteiltAufgabe),
-    // ...times(4, malAufgabe),
-    // ...times(3, minusAufgabe),
-    // ...times(3, plusAufgabe),
+    ...uniqueTimes(10, teilerBestimmenKlein, a => a.html <= 250),
+    ...uniqueTimes(7, teilerBestimmenGross, a => a.html <= 250),
+    ...uniqueTimes(3, potenzAufgabe),
+    // ...uniqueTimes(5, geteiltAufgabe),
+    // ...uniqueTimes(4, malAufgabe),
+    // ...uniqueTimes(3, minusAufgabe),
+    // ...uniqueTimes(3, plusAufgabe),
   ]
   mischen(aufgaben).forEach(aufgabeAnzeigen)
 }
@@ -68,7 +68,7 @@ function teilerBestimmenKlein() {
 }
 
 function teilerBestimmenGross() {
-  const primeCount = zahlZwischen(1, 3)
+  const primeCount = zahlZwischen(1, 2)
   const primes = [
     ...times(primeCount, () => auswahl(prim_klein)),
     auswahl(prim_gross),
@@ -177,6 +177,22 @@ function auswahl(liste) {
   const index = Math.round(Math.random() * (liste.length - 1))
   return liste[index]
 }
+
+function uniqueTimes(num, func, validate) {
+  const hash = new Set()
+  const list = new Array()
+  while (list.length < num) {
+    const aufgabe = func()
+    const isNew = !hash.has(aufgabe.html)
+    const isValid = typeof validate === 'function' ? validate(aufgabe) : true
+    if (isNew & isValid) {
+      list.push(aufgabe)
+      hash.add(aufgabe.html)
+    }
+  }
+  return list
+}
+
 function times(num, func) {
   const list = new Array(num)
   for (let i = 0; i < num; i++) {
