@@ -2,9 +2,10 @@ import { uhr } from "/uhr.js"
 
 export function generiereAufgaben() {
   const aufgaben = [
-    ...uniqueTimes(10, teilerBestimmenKlein, a => a.html <= 250),
-    ...uniqueTimes(7, teilerBestimmenGross, a => a.html <= 250),
-    ...uniqueTimes(3, potenzAufgabe),
+    ...uniqueTimes(5, teilerBestimmenKlein, a => a.html <= 250),
+    ...uniqueTimes(3, teilerBestimmenGross, a => a.html <= 250),
+    ...uniqueTimes(2, potenzAufgabe),
+
     // ...uniqueTimes(5, geteiltAufgabe),
     // ...uniqueTimes(4, malAufgabe),
     // ...uniqueTimes(3, minusAufgabe),
@@ -232,11 +233,13 @@ function aufgabeAnzeigen(aufgabe) {
     }
   }
 
-  const mainDiv = document.createElement("div")
-  mainDiv.className = "aufgabe"
-  mainDiv.appendChild(div)
-  mainDiv.appendChild(input)
-
   const content = document.querySelector("#aufgaben")
-  content.appendChild(mainDiv)
+  content.appendChild(div)
+  content.appendChild(input)
+
+  // const mainDiv = document.createElement("div")
+  // mainDiv.className = "aufgabe"
+  // mainDiv.appendChild(div)
+  // mainDiv.appendChild(input)
+  // content.appendChild(mainDiv)
 }

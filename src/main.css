@@ -5,7 +5,9 @@ input {
 }
 #aufgaben {
   padding: 2em 0;
-  max-width: 500px;
+  display: grid;
+  grid-template-columns: minmax(5em, auto) minmax(5em, 1fr);
+  row-gap: 24px;
 }
 #uhr {
   position: fixed;
@@ -25,13 +27,14 @@ input {
   margin-right: 0.6em;
   text-align: right;
   line-height: 50px;
-  flex: 2;
+  flex: 0 0 minmax(5em, auto);
 }
 .loesung {
   padding: 8px;
-  flex: 1;
+  flex: 1 0 5em;
   min-width: 5em;
   border: 1px solid #cccccc;
+  border-radius: 5px;
 }
 .loesung.richtig {
   box-shadow: 1px 1px 8px rgb(82, 150, 82);
