@@ -2,11 +2,13 @@ import { uhr } from "/uhr.js"
 
 export function generiereAufgaben() {
   const aufgaben = [
-    ...times(5, potenzAufgabe),
-    ...times(5, geteiltAufgabe),
-    ...times(4, malAufgabe),
-    ...times(3, minusAufgabe),
-    ...times(3, plusAufgabe),
+    ...times(10, teilerBestimmenKlein),
+    ...times(7, teilerBestimmenGross),
+    ...times(3, potenzAufgabe),
+    // ...times(5, geteiltAufgabe),
+    // ...times(4, malAufgabe),
+    // ...times(3, minusAufgabe),
+    // ...times(3, plusAufgabe),
   ]
   mischen(aufgaben).forEach(aufgabeAnzeigen)
 }
@@ -39,33 +41,100 @@ export function generiereAufgaben() {
 //   }
 // }
 
+const prim_klein = [2, 3, 5, 7]
+const prim_gross = [11, 13, 17, 19, 23, 29, 31, 37]
+function teilerBestimmenKlein() {
+  const primeCount = zahlZwischen(3, 4)
+  const primes = times(primeCount, () => auswahl(prim_klein))
+  const zahl = produktVon(primes)
+  const html = String(zahl)
+  // const html = `${zahl} = ${primes.sort().join(",")}`
+  const result = listeAllerTeiler(zahl).join(", ")
+
+  function uberpruefe(eingabe) {
+    const normalisierteEingabe = eingabe
+      .split(",")
+      .map((x) => parseInt(x.trim(), 10))
+      .sort((a, b) => a-b)
+      .join(", ")
+    return result == normalisierteEingabe
+  }
+  return { html, result, uberpruefe }
+}
+
+function teilerBestimmenGross() {
+  const primeCount = zahlZwischen(2, 4)
+  const primes = [
+    ...times(primeCount, () => auswahl(prim_klein)),
+    auswahl(prim_gross),
+  ]
+  const zahl = produktVon(primes)
+  const html = String(zahl)
+  // const html = `${zahl} = ${primes.sort().join(",")}`
+  const result = listeAllerTeiler(zahl).join(", ")
+
+  function uberpruefe(eingabe) {
+    const normalisierteEingabe = eingabe
+      .split(",")
+      .map((x) => parseInt(x.trim(), 10))
+      .sort((a, b) => a-b)
+      .join(", ")
+    return result == normalisierteEingabe
+  }
+  return { html, result, uberpruefe }
+}
+
+function listeAllerTeiler(zahl) {
+  const result = [1]
+  for (let i = 2; i <= zahl / 2; i++) {
+    if (Number.isInteger(zahl / i)) {
+      result.push(i)
+    }
+  }
+  result.push(zahl)
+  return result
+}
+
 // Aufgabentypen
 function plusAufgabe() {
   const a = zahlZwischen(100, 10000)
   const b = zahlZwischen(100, 10000)
-  return { html: `${a} + ${b}`, result: a + b }
+
+  function uberpruefe(eingabe) {
+    return eingabe == a + b
+  }
+  return { html: `${a} + ${b}`, result: a + b, uberpruefe }
 }
 function minusAufgabe() {
-  const a = zahlZwischen(100, 10000)
-  const b = zahlZwischen(100, 10000)
-  return a > b
-    ? { html: `${a} - ${b}`, result: a - b }
-    : { html: `${b} - ${a}`, result: b - a }
+  const [min, max] = [zahlZwischen(100, 10000), zahlZwischen(100, 10000)].sort()
+
+  function uberpruefe(eingabe) {
+    return eingabe == max - min
+  }
+  return { html: `${max} - ${min}`, result: max - min, uberpruefe }
 }
 function malAufgabe() {
   const a = zahlZwischen(5, 20)
   const b = zahlZwischen(5, 20)
+  function uberpruefe(eingabe) {
+    return eingabe == a * b
+  }
   return {
     html: `${a} * ${b}`,
     result: a * b,
+    uberpruefe,
   }
 }
 function geteiltAufgabe() {
   const a = zahlZwischen(5, 20)
   const b = zahlZwischen(5, 20)
+  function uberpruefe(eingabe) {
+    return eingabe == a
+  }
   return {
     html: `${a * b} : ${b}`,
     result: a,
+    uberpruefe,
   }
 }
 function potenzAufgabe() {
@@ -77,9 +146,14 @@ function potenzAufgabe() {
       : basis <= 6
       ? zahlZwischen(0, 4)
       : zahlZwischen(2, 3)
+
+  function uberpruefe(eingabe) {
+    return eingabe == basis ** exponent
+  }
   return {
     html: `${basis}<sup>${exponent}</sup>`,
     result: basis ** exponent,
+    uberpruefe,
   }
 }
 
@@ -87,7 +161,17 @@ function potenzAufgabe() {
 function zahlZwischen(von, bis) {
   return Math.round(Math.random() * (bis - von)) + von
 }
+function produktVon(listeVonZahlen) {
+  return listeVonZahlen.reduce((c, x) => c * x, 1)
+}
+function summeVon(listeVonZahlen) {
+  return listeVonZahlen.reduce((c, x) => c + x, 0)
+}
 
+function auswahl(liste) {
+  const index = Math.round(Math.random() * (liste.length - 1))
+  return liste[index]
+}
 function times(num, func) {
   const list = new Array(num)
   for (let i = 0; i < num; i++) {
@@ -107,15 +191,25 @@ function mischen(liste) {
   return neueListe
 }
 
+// Anzeige-Funktionen
 function aufgabeAnzeigen(aufgabe) {
   const div = document.createElement("div")
   div.className = "aufgabenstellung"
   div.innerHTML = aufgabe.html + " = "
 
   const input = document.createElement("input")
-  input.type = 'number'
+  // input.type = 'number'
   input.className = "loesung"
-  input.onblur = ueberpruefeErgebnis(input, aufgabe.result)
+  input.onblur = () => {
+    if (input.value) {
+      uhr()
+      input.className = aufgabe.uberpruefe(input.value)
+        ? "loesung richtig"
+        : "loesung falsch"
+    } else {
+      input.className = "loesung"
+    }
+  }
 
   const mainDiv = document.createElement("div")
   mainDiv.className = "aufgabe"
@@ -124,19 +218,4 @@ function aufgabeAnzeigen(aufgabe) {
 
   const content = document.querySelector("#aufgaben")
   content.appendChild(mainDiv)
-}
-
-function ueberpruefeErgebnis(input, richtigesErgebnis) {
-  return () => {
-    if (input.value) {
-      uhr()
-
-      input.className =
-        input.value == richtigesErgebnis //
-          ? "loesung richtig"
-          : "loesung falsch"
-    } else {
-      input.className = "loesung"
-    }
-  }
 }
